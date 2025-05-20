@@ -72,7 +72,7 @@ export const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
         style={{ backgroundColor }}
       >
         <SheetHeader className="p-4 border-b">
-          <SheetTitle>Categories</SheetTitle>
+          <SheetTitle>{ selectedCategory ? selectedCategory.name : "All Categories" }</SheetTitle>
         </SheetHeader>
         <ScrollArea className="flex flex-col overflow-y-auto h-full pb-2">
           {parentCategories && (
