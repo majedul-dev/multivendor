@@ -26,7 +26,7 @@ export const CategoriesSidebar = ({ open, onOpenChange}: Props) => {
   const router = useRouter();
   const [parentCategories, setParentCategories] = useState<
   CategoriesGetManyOutput | null
-  >(null);.
+  >(null);
   const [selectedCategory, setSelectedCategory] =
     useState<CategoriesGetManyOutput[1] | null>(null);
 
