@@ -13,7 +13,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTRPC } from "@/app/trpc/client";
 import { useQuery } from "@tanstack/react-query";
-import { CategoriesGetManyOutput, CategoriesGetSingleOutput } from "@/modules/categories/types";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface Props {
   open: boolean;
@@ -26,7 +26,7 @@ export const CategoriesSidebar = ({ open, onOpenChange}: Props) => {
   const router = useRouter();
   const [parentCategories, setParentCategories] = useState<
   CategoriesGetManyOutput | null
-  >(null);
+  >(null);.
   const [selectedCategory, setSelectedCategory] =
     useState<CategoriesGetManyOutput[1] | null>(null);
 
