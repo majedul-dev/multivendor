@@ -67,10 +67,10 @@ export const Navbar = () => {
 
       <div className="hidden lg:flex items-center">
         <Button asChild variant="secondary" className="border-l border-r-0 border-t-0 border-b-0 h-full px-12 rounded-none bg-white hover:bg-pink-400 transition-colors text-lg">
-          <Link href="/auth/login">Log in</Link>
+          <Link href="/sign-in">Log in</Link>
         </Button>
         <Button asChild className="border-l border-r-0 border-t-0 border-b-0 h-full px-12 rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg">
-          <Link href="/auth/signup">Start Selling</Link>
+          <Link href="/sign-up">Start Selling</Link>
         </Button>
       </div>
       <div className="flex lg:hidden items-center justify-center">

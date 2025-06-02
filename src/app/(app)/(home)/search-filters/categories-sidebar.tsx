@@ -11,7 +11,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTRPC } from "@/app/trpc/client";
+import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
 import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
