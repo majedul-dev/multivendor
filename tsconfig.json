@@ -6,6 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
+    "maxNodeModuleJsDepth": 5,
+    "disableSizeLimit": true,
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

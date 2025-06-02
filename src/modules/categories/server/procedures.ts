@@ -1,4 +1,4 @@
-import { baseProcedure, createTRPCRouter } from "@/app/trpc/init";
+import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { Category } from "@/payload-types";
 
 
