@@ -1,7 +1,15 @@
-import {SignUpView} from '@/modules/auth/ui/views/sign-up-view'
+import { caller } from "@/trpc/server";
+import { redirect } from "next/navigation";
+import { SignUpView } from "@/modules/auth/ui/views/sign-up-view";
 
-function page() {
-  return <SignUpView />
+export const dynamic = 'force-dynamic';
+
+async function page() {
+  const session = await caller.auth.session();
+  if (session.user) {
+    redirect("/");
+  }
+  return <SignUpView />;
 }
 
-export default page
+export default page;

@@ -1,9 +1,15 @@
-import React from 'react'
+import { caller } from '@/trpc/server'
+import { redirect } from 'next/navigation';
+import { SignInView } from '@/modules/auth/ui/views/sign-in-view'
 
-function page() {
-  return (
-    <div>Login</div>
-  )
+export const dynamic = 'force-dynamic';
+
+async function page() {
+  const session = await caller.auth.session();
+  if (session.user) {
+    redirect("/")
+  }
+  return <SignInView />
 }
 
 export default page

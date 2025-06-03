@@ -1,10 +1,9 @@
 import z from "zod";
-import { headers as getHeaders, cookies as getCookies } from "next/headers";
+import { headers as getHeaders } from "next/headers";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 
-import { AUTH_COOKIE } from "../constants";
-import { registerSchema } from "../schemas";
+import { generateAuthCookie } from "../utils";
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -16,7 +15,19 @@ export const authRouter = createTRPCRouter({
   }),
 
   register: baseProcedure
-    .input(registerSchema)
+    .input(z.object({
+      email: z.string().email(),
+      password: z.string(),
+      username: z
+        .string()
+        .min(3, "Username must be at least 3 characters")
+        .max(63, "Username must be less than 63 characters")
+        .regex(
+          /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
+          "Username can only contain lowercase letters, numbers and hypens. It must start and end with a latter or number"
+        )
+        .refine((val) => !val.includes("--"), "Username cannot contain hypens"),
+    }))
     .mutation(async ({ input, ctx }) => {
       const existingData = await ctx.db.find({
         collection: "users",
@@ -61,13 +72,10 @@ export const authRouter = createTRPCRouter({
         });
       }
 
-      const cookies = await getCookies();
-      cookies.set({
-        name: AUTH_COOKIE,
-        value: data.token,
-        httpOnly: true,
-        path: "/",
-      });
+      await generateAuthCookie({
+        prefix: ctx.db.config.cookiePrefix,
+        value: data.token
+      })
 
       return data;
     }),
@@ -95,13 +103,10 @@ export const authRouter = createTRPCRouter({
         });
       }
 
-      const cookies = await getCookies();
-      cookies.set({
-        name: AUTH_COOKIE,
-        value: data.token,
-        httpOnly: true,
-        path: "/",
-      });
+      await generateAuthCookie({
+        prefix: ctx.db.config.cookiePrefix,
+        value: data.token
+      })
 
       return data;
     }),
