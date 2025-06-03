@@ -3,7 +3,7 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTRPC } from "@/trpc/client"
+import { useTRPC } from "@/trpc/client";
 import {
   Form,
   FormControl,
@@ -27,34 +27,39 @@ const poppins = Poppins({
   weight: ["700"],
 });
 
-const schema = z.object({
-      email: z.string().email(),
-      password: z.string(),
-      username: z
-        .string()
-        .min(3, "Username must be at least 3 characters")
-        .max(63, "Username must be less than 63 characters")
-        .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, "Username can only contain lowercase letters, numbers and hypens. It must start and end with a latter or number")
-        .refine((val) => !val.includes("--"), "Username cannot contain hypens")
-  })
+const registerSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .max(63, "Username must be less than 63 characters")
+    .regex(
+      /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
+      "Username can only contain lowercase letters, numbers and hypens. It must start and end with a latter or number"
+    )
+    .refine((val) => !val.includes("--"), "Username cannot contain hypens"),
+});
 
-  type FormSchema = z.infer<typeof schema>
+type FormSchema = z.infer<typeof registerSchema>;
 
 export function SignUpView() {
-  const router = useRouter()
+  const router = useRouter();
   const trpc = useTRPC();
-  const register = useMutation(trpc.auth.register.mutationOptions({
-    onError: (error) => {
-      toast.error(error.message)
-    },
-    onSuccess: () => {
-      router.push("/")
-    }
-  }))
+  const register = useMutation(
+    trpc.auth.register.mutationOptions({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: () => {
+        router.push("/");
+      },
+    })
+  );
 
   const form = useForm<FormSchema>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(schema as any),
+    resolver: zodResolver(registerSchema as any),
     defaultValues: {
       email: "",
       password: "",
@@ -65,9 +70,8 @@ export function SignUpView() {
   const onSubmit = (values: FormSchema) => {
     register.mutate({
       ...values,
-      username: values.username.toLowerCase()
-    })
-    
+      username: values.username.toLowerCase(),
+    });
   };
 
   const username = form.watch("username");
